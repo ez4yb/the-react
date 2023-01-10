@@ -5,15 +5,15 @@ import {
 	Ref,
 	Props,
 	ElementType,
-	ReactElement
+	ReactElementType
 } from 'shared/ReactTypes';
 
-const createElement = function (
+const ReactElement = function (
 	type: Type,
 	key: Key,
 	ref: Ref,
 	props: Props
-): ReactElement {
+): ReactElementType {
 	const element = {
 		$$typeof: REACT_ELEMENT_TYPE,
 		type,
@@ -63,7 +63,7 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
 		}
 	}
 
-	return createElement(type, key, ref, props);
+	return ReactElement(type, key, ref, props);
 };
 
 export const jsxDEV = jsx;
