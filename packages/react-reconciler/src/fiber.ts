@@ -1,6 +1,7 @@
 import { Props, Key, Ref } from 'shared/ReactTypes';
 import { Flags, NoFlags } from './fiberFlags';
 import { WorkTag } from './workTags';
+import { Container } from 'hostConfig';
 
 export class FiberNode {
 	tag: WorkTag;
@@ -18,6 +19,7 @@ export class FiberNode {
 	memorizedProps: Props | null;
 	alternate: FiberNode | null;
 	flags: Flags;
+	updateQueue: unknown;
 
 	constructor(tag: WorkTag, pendingProps: Props, key: Key) {
 		this.tag = tag;
@@ -35,8 +37,21 @@ export class FiberNode {
 
 		this.pendingProps = pendingProps;
 		this.memorizedProps = null;
+		this.updateQueue = null;
 
 		this.alternate = null;
 		this.flags = NoFlags;
+	}
+}
+
+export class FiberRootNode {
+	container: Container;
+	current: FiberNode;
+	finishedWork: FiberNode | null;
+	constructor(container: Container, hostRootFiber: FiberNode) {
+		this.container = container;
+		this.current = hostRootFiber;
+		hostRootFiber.stateNode = this;
+		this.finishedWork = null;
 	}
 }
